@@ -15,16 +15,15 @@
 #
 #
 # Phantom App imports
-import phantom.app as phantom
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-
-# Usage of the consts file is recommended
-# from ipcontrol_consts import *
-import requests
 import json
 import re
+
+import phantom.app as phantom
+import requests
 from bs4 import BeautifulSoup
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
+
 from ipcontrol_consts import *
 
 
@@ -81,7 +80,10 @@ class IpControlConnector(BaseConnector):
         try:
             resp_json = r.json()
         except Exception as e:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, "Unable to parse JSON response. Error: {0}".format(str(e))), None)
+            return RetVal(action_result.set_status
+                          (phantom.APP_ERROR,
+                           "Unable to parse JSON response. Error: {0}".format(str(e))),
+                          None)
 
         # Please specify the status codes here
         if 200 <= r.status_code < 399:
@@ -176,7 +178,9 @@ class IpControlConnector(BaseConnector):
                             verify=config.get('verify_server_cert', False), **kwargs)
 
         except Exception as e:
-            return RetVal(action_result.set_status( phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(str(e))), resp_json)
+            return RetVal(action_result.set_status( phantom.APP_ERROR,
+                                                    "Error Connecting to server. Details: {0}"
+                                                    .format(str(e))), resp_json)
 
         return self._process_response(r, action_result)
 
@@ -240,7 +244,8 @@ class IpControlConnector(BaseConnector):
         }
 
         # make rest call
-        ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_BLOCK_TYPE, action_result, method="post", headers=headers, data=data)
+        ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_BLOCK_TYPE,
+                                                 action_result, method="post", headers=headers, data=data)
 
         if phantom.is_fail(ret_val):
             self.debug_print(action_result.get_message())
@@ -289,7 +294,8 @@ class IpControlConnector(BaseConnector):
         # optional_parameter = param.get('optional_parameter', 'default_value')
 
         # make rest call
-        ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_IP_ADDRESS + hostname, action_result, method="get", headers=headers, params=None)
+        ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_IP_ADDRESS + hostname,
+                                                 action_result, method="get", headers=headers, params=None)
 
         if phantom.is_fail(ret_val):
             self.debug_print(action_result.get_message())
@@ -336,7 +342,8 @@ class IpControlConnector(BaseConnector):
         # optional_parameter = param.get('optional_parameter', 'default_value')
 
         # make rest call
-        ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_HOSTNAME + ip_address, action_result, method="get", headers=headers, params=None)
+        ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_HOSTNAME + ip_address, action_result,
+                                                 method="get", headers=headers, params=None)
 
         if phantom.is_fail(ret_val):
             self.debug_print(action_result.get_message())
@@ -503,8 +510,9 @@ class IpControlConnector(BaseConnector):
 
 if __name__ == '__main__':
 
-    import pudb
     import argparse
+
+    import pudb
 
     pudb.set_trace()
 
