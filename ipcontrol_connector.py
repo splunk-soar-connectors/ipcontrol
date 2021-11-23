@@ -539,7 +539,7 @@ if __name__ == '__main__':
         try:
             login_url = IpControlConnector._get_phantom_base_url() + '/login'
 
-            print 'Accessing the Login page'
+            print("Accessing the Login page")
             r = requests.get(login_url, timeout=60)
             csrftoken = r.cookies['csrftoken']
 
@@ -552,11 +552,11 @@ if __name__ == '__main__':
             headers['Cookie'] = 'csrftoken=' + csrftoken
             headers['Referer'] = login_url
 
-            print 'Logging into Platform to get the session id'
+            print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, data=data, headers=headers, timeout=60)
             session_id = r2.cookies['sessionid']
         except Exception as e:
-            print 'Unable to get session id from the platform. Error: ' + str(e)
+            print("Unable to get session id from the platform. Error: " + str(e))
             sys.exit()
 
     with open(args.input_test_json) as f:
