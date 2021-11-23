@@ -13,10 +13,9 @@
     "app_version": "1.0.6",
     "utctime_updated": "2021-11-15T14:54:08.000000Z",
     "package_name": "phantom_ipcontrol",
-    "main_module": "ipcontrol_connector.py",
+    "main_module": "ipcontrol_connector.pyc",
     "min_phantom_version": "4.10.0.40961",
     "app_wizard_version": "1.0.0",
-    "python_version": "3",
     "configuration": {
         "base_url": {
             "description": "IP or Hostname for IP Control",
