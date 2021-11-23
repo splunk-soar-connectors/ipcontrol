@@ -16,7 +16,7 @@
     "main_module": "ipcontrol_connector.py",
     "min_phantom_version": "5.0.0",
     "app_wizard_version": "1.0.0",
-    "python_version": "2",
+    "python_version": "2.7",
     "configuration": {
         "base_url": {
             "description": "IP or Hostname for IP Control",
