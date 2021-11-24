@@ -147,7 +147,7 @@ class IpControlConnector(BaseConnector):
 
         ret_val, response = self._make_rest_call(auth_endpoint, action_result, method="post", data=data)
 
-        if phantom.is_fail(ret_val):
+        if (phantom.is_fail(ret_val)):
             self.debug_print(action_result.get_message())
             self.set_status(phantom.APP_ERROR, action_result.get_message())
             return None
@@ -248,7 +248,7 @@ class IpControlConnector(BaseConnector):
         ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_BLOCK_TYPE,
                                                  action_result, method="post", headers=headers, data=data)
 
-        if phantom.is_fail(ret_val):
+        if (phantom.is_fail(ret_val)):
             self.debug_print(action_result.get_message())
             self.set_status(phantom.APP_ERROR, action_result.get_message())
             return phantom.APP_ERROR
@@ -298,7 +298,7 @@ class IpControlConnector(BaseConnector):
         ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_IP_ADDRESS + hostname,
                                                  action_result, method="get", headers=headers, params=None)
 
-        if phantom.is_fail(ret_val):
+        if (phantom.is_fail(ret_val)):
             self.debug_print(action_result.get_message())
             self.set_status(phantom.APP_ERROR, action_result.get_message())
             return phantom.APP_ERROR
@@ -435,7 +435,7 @@ class IpControlConnector(BaseConnector):
         ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_CHILD_BLOCK, action_result, method="post",
                                                  headers=headers, data=data)
 
-        if phantom.is_fail(ret_val):
+        if (phantom.is_fail(ret_val)):
             self.debug_print(action_result.get_message())
             self.set_status(phantom.APP_ERROR, action_result.get_message())
             return phantom.APP_ERROR
@@ -529,13 +529,13 @@ if __name__ == '__main__':
     username = args.username
     password = args.password
 
-    if username is not None and password is None:
+    if (username is not None and password is None):
 
         # User specified a username but not a password, so ask
         import getpass
         password = getpass.getpass("Password: ")
 
-    if username and password:
+    if (username and password):
         try:
             login_url = IpControlConnector._get_phantom_base_url() + '/login'
 
@@ -567,7 +567,7 @@ if __name__ == '__main__':
         connector = IpControlConnector()
         connector.print_progress_message = True
 
-        if session_id is not None:
+        if (session_id is not None):
             in_json['user_session_token'] = session_id
             connector._set_csrf_info(csrftoken, headers['Referer'])
 
