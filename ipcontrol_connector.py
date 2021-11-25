@@ -147,7 +147,7 @@ class IpControlConnector(BaseConnector):
 
         ret_val, response = self._make_rest_call(auth_endpoint, action_result, method="post", data=data)
 
-        if phantom.is_fail(ret_val):
+        if (phantom.is_fail(ret_val)):
             self.debug_print(action_result.get_message())
             self.set_status(phantom.APP_ERROR, action_result.get_message())
             return None
@@ -248,7 +248,7 @@ class IpControlConnector(BaseConnector):
         ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_BLOCK_TYPE,
                                                  action_result, method="post", headers=headers, data=data)
 
-        if phantom.is_fail(ret_val):
+        if (phantom.is_fail(ret_val)):
             self.debug_print(action_result.get_message())
             self.set_status(phantom.APP_ERROR, action_result.get_message())
             return phantom.APP_ERROR
@@ -298,7 +298,7 @@ class IpControlConnector(BaseConnector):
         ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_IP_ADDRESS + hostname,
                                                  action_result, method="get", headers=headers, params=None)
 
-        if phantom.is_fail(ret_val):
+        if (phantom.is_fail(ret_val)):
             self.debug_print(action_result.get_message())
             self.set_status(phantom.APP_ERROR, action_result.get_message())
             return phantom.APP_ERROR
@@ -435,7 +435,7 @@ class IpControlConnector(BaseConnector):
         ret_val, response = self._make_rest_call(IPCONTROL_ENDPOINT_GET_CHILD_BLOCK, action_result, method="post",
                                                  headers=headers, data=data)
 
-        if phantom.is_fail(ret_val):
+        if (phantom.is_fail(ret_val)):
             self.debug_print(action_result.get_message())
             self.set_status(phantom.APP_ERROR, action_result.get_message())
             return phantom.APP_ERROR
@@ -522,25 +522,27 @@ if __name__ == '__main__':
     argparser.add_argument('input_test_json', help='Input Test JSON file')
     argparser.add_argument('-u', '--username', help='username', required=False)
     argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument('-v', '--verify', action='store_true', help='verify', required=False, default=False)
 
     args = argparser.parse_args()
     session_id = None
 
     username = args.username
     password = args.password
+    verify = args.verify
 
-    if username is not None and password is None:
+    if (username is not None and password is None):
 
         # User specified a username but not a password, so ask
         import getpass
         password = getpass.getpass("Password: ")
 
-    if username and password:
+    if (username and password):
         try:
             login_url = IpControlConnector._get_phantom_base_url() + '/login'
 
             print("Accessing the Login page")
-            r = requests.get(login_url, timeout=60)
+            r = requests.get(login_url, verify=verify, timeout=60)
             csrftoken = r.cookies['csrftoken']
 
             data = dict()
@@ -553,7 +555,7 @@ if __name__ == '__main__':
             headers['Referer'] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(login_url, data=data, headers=headers, timeout=60)
+            r2 = requests.post(login_url, verify=verify, data=data, headers=headers, timeout=60)
             session_id = r2.cookies['sessionid']
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
@@ -567,7 +569,7 @@ if __name__ == '__main__':
         connector = IpControlConnector()
         connector.print_progress_message = True
 
-        if session_id is not None:
+        if (session_id is not None):
             in_json['user_session_token'] = session_id
             connector._set_csrf_info(csrftoken, headers['Referer'])
 
